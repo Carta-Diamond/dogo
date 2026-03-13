@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+from entities.user import User
 
 app = Flask(__name__)
 
@@ -22,10 +23,11 @@ def create_user():
     email = data.get("email")
     password = data.get("password")
 
-    print(f"Nombre: {name}")
-    print(f"Email: {email}")
+    User.save(name, email, password)
+
 
     return jsonify({'success': True})
+
 #underscorte methods and properties
 if __name__ == '__main__':
     app.run()
