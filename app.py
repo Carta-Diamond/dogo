@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from entities.account import Account
 from entities.user import User
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 from dotenv import load_dotenv
 import os
 
@@ -13,7 +14,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "index"
 
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_by_id(user_id)
 
 @app.route('/')
 def index():
@@ -26,7 +29,8 @@ def signup():
 @app.route('/welcome')
 @login_required
 def welcome():
-    return render_template('welcome.html')
+    account = Account.get_account_by_user(current_user.id)
+    return render_template('welcome.html', accounts = account)
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
@@ -65,15 +69,13 @@ def login():
             "message": "Los datos de acceso ingresados no son correctos."
         }), 401
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get_by_id(user_id)
-
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
 
 #underscorte methods and properties
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ class User (UserMixin):
         self.name = name
         self.email = email
         self.password = password
+        
 
     def check_email_exists(email) -> bool:
         connection = get_connection()
@@ -87,6 +88,30 @@ class User (UserMixin):
                     user["email"],
                     user["password"]
                     )
+            return None
+        except Exception as e:
+            print(f"Error al obtener el usuario por ID: {e}")
+            return None
+        
+    def get_account_by_id(id):
+        try:   
+            connection = get_connection()
+            cursor = connection.cursor(pymysql.cursors.DictCursor)
+        
+            sql = "SELECT id, number FROM account WHERE id = %s"
+            cursor.execute(sql, (id,))
+        
+            account =  cursor.fetchone()
+
+            cursor.close()
+            connection.close()
+
+            if account:
+                return account.Account(
+                    account["id"],
+                    account["number"],
+                    account["user_id"]
+                )
             return None
         except Exception as e:
             print(f"Error al obtener el usuario por ID: {e}")
