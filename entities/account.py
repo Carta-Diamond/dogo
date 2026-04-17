@@ -42,3 +42,13 @@ class Account():
         except Exception as e:
             print(f"Error al obtener la cuenta por ID: {e}")
             return None
+
+    def get_saldo(self):
+        """Calcula el saldo actual sumando ingresos y restando egresos"""
+        saldo = 0
+        for transaction in self.transactions:
+            if transaction.type.value == 1:  # Ingreso 
+                saldo += transaction.amount
+            elif transaction.type.value == 2:  # Egreso
+                saldo -= transaction.amount
+        return saldo

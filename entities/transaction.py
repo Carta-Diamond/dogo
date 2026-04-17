@@ -40,3 +40,6 @@ class Transaction:
         except Exception as e:
             print(f"Error al obtener la cuenta por ID: {e}")
             return []
+        
+
+    

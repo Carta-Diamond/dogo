@@ -30,7 +30,8 @@ def signup():
 @login_required
 def welcome():
     account = Account.get_account_by_user(current_user.id)
-    return render_template('welcome.html', accounts = account)
+    balance = account.get_saldo() if account else 0
+    return render_template('welcome.html', accounts = account, balance = balance)
 
 @app.route('/api/users', methods=['POST'])
 def create_user():

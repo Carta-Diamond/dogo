@@ -178,17 +178,7 @@
                                         <div class="flex-grow-1">
                                             <h5 class="card-title mb-3">Saldo disponible</h5>
                                             <div class="mt-4">
-                                                {% set saldo_total = 0 %}
-                                                {% if accounts and accounts.transactions %}
-                                                    {% for t in accounts.transactions %}
-                                                        {% if t.type.value == 'income' %}
-                                                            {% set saldo_total = saldo_total + t.amount %}
-                                                        {% elif t.type.value == 'expense' %}
-                                                            {% set saldo_total = saldo_total - t.amount %}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                                <h2 class="mb-2">${{ "%.2f"|format(saldo_total) }}</h2>
+                                                <h2 class="mb-2">${{ "%.2f"|format(balance) }}</h2>
                                                 <p class="text-muted mb-0">MXN - Pesos Mexicanos</p>
                                             </div>
                                         </div>
